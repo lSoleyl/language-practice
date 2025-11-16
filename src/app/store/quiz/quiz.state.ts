@@ -2,10 +2,10 @@ import type { Task } from "../task.types";
 
 
 export interface QuizState {
-  displayedTask: Task | undefined;
+  displayedTask: Task | null;
 }
 
 
 export const initialState: QuizState = {
-  displayedTask: undefined
+  displayedTask: null
 };

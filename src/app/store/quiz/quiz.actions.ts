@@ -3,7 +3,7 @@ import type { Task } from "../task.types";
 
 
 export interface SelectTaskPayload {
-  task: Task
+  task: Task | null
 };
 
 

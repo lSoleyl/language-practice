@@ -68,6 +68,7 @@ export class GapTextDisplayComponent implements OnInit, OnDestroy {
    */
   checkTask(): boolean {
     if (this.currentTask) {
+      let result = true;
       for (let element of this.currentTask.elements) {
         if (element.isGap) {
           if (element.enteredText.trim() === element.text.trim()) {
@@ -76,11 +77,12 @@ export class GapTextDisplayComponent implements OnInit, OnDestroy {
           } else {
             element.correct = false;
             element.wrong = true;
+            result = false;
           }
         }
       }
 
-
+      return result;
     }
 
     return false;

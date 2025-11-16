@@ -1,0 +1,24 @@
+<table>
+  <thead>
+    <tr>
+      <td>Nr</td>
+      <td>Typ</td>
+      <td>Kategorie</td>
+      <td>Text</td>
+      <td>Aktion</td>
+    </tr>
+  </thead>
+  <tbody>
+  @for (task of allTasks$ | async; track task.id) {
+    <tr>
+      <td>{{task.id}}</td>
+      <td>{{task.type | taskType }}</td>
+      <td>{{task.category | taskCategory }}</td>
+      <td>{{task | taskText}}</td>
+      <td>
+        <button (click)="editTask.emit(task)"><i class="fa fa-pen-to-square"></i></button>&nbsp;
+        <button (click)="deleteTask.emit(task)"><i class="fa-solid fa-trash"></i></button></td>
+    </tr>
+  }
+  </tbody>
+</table>

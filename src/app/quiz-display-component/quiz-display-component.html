@@ -1,4 +1,7 @@
 <ng-container *ngComponentOutlet="displayComponent$ | async; inputs: {'task$': task$, 'triggerCheck$': checkTask}"></ng-container>
 <div class="buttonArea">
-  <button (click)="performCheck()">Überprüfen</button>
+  @if (!checkedTask) {
+    <button (click)="performCheck()">Überprüfen</button>
+  }
+  <button (click)="nextTask()">Nächste Aufgabe</button>
 </div>

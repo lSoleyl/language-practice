@@ -2,11 +2,15 @@ export enum TaskType {
   GAP_TEXT = 'gap-text'
 };
 
+export enum TaskCategory {
+  GRAMMAR = 'grammar',
+  VOCABULARY = 'vocabulary'
+};
 
 export interface BasicTask {
   id: number;
   type: TaskType;
-  category: string;
+  category: TaskCategory;
 }
 
 
