@@ -15,4 +15,12 @@
   tbody>tr:hover {
     background-color: var(--bg-hover-color);
   }
+
+  .delete {
+    background-color: var(--red-bg-color);
+
+    &:hover {
+      background-color: var(--red-bg-hover-color);
+    }
+  }
 }

@@ -14,8 +14,8 @@ $light-color: white;
   --highlight-color: yellow;
   --highlight-bg-color: rgb(255, 255, 157);
 
-  --correct-bg-color: rgba(0, 128, 0, 0.5);
-  --wrong-bg-color: rgba(255, 0, 0, 0.5);
+  --green-bg-color: rgba(0, 128, 0, 0.5);
+  --red-bg-color: rgba(255, 0, 0, 0.5);
 }
 
 
@@ -27,12 +27,13 @@ $light-color: white;
   //--highlight-bg-color: hsl(59, 100%, 26%);
   --highlight-bg-color: rgba(255, 255, 0, 0.5);
 
-  --correct-bg-color: rgba(0, 128, 0, 0.5);
-  --wrong-bg-color: rgba(255, 0, 0, 0.5);
+  --green-bg-color: rgba(0, 128, 0, 0.5);
+  --red-bg-color: rgba(255, 0, 0, 0.5);
 }
 
 :root {
   --bg-hover-color: color-mix(in hsl, var(--bg-color) 90%, var(--font-color) 10%);
+  --red-bg-hover-color: color-mix(in hsl, var(--red-bg-color) 90%, var(--font-color) 10%);
   --border-color: grey;
 }
 

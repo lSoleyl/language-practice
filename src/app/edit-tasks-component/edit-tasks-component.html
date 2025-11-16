@@ -1,2 +1,6 @@
-<edit-tasks-list-component (editTask)="editTask($event)" (deleteTask)="deleteTask($event)"></edit-tasks-list-component>
+@if (!editedTask) {
+  <edit-tasks-list-component (editTask)="editTask($event)" (deleteTask)="deleteTask($event)"></edit-tasks-list-component>
+} @else {
+  <edit-single-task-component [task]="editedTask" (saveTask)="saveTask($event)" (deleteTask)="deleteTask($event)"></edit-single-task-component>
+}
 

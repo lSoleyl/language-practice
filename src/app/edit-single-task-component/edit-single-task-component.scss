@@ -1,0 +1,9 @@
+:host {
+  .delete {
+    background-color: var(--red-bg-color);
+
+    &:hover {
+      background-color: var(--red-bg-hover-color);
+    }
+  }
+}

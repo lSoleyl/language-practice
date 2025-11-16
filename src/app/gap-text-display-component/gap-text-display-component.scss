@@ -10,11 +10,11 @@
   padding-right: 2px;
 
   &.correct {
-    background-color: var(--correct-bg-color);
+    background-color: var(--green-bg-color);
   }
 
   &.wrong {
-    background-color: var(--wrong-bg-color);
+    background-color: var(--red-bg-color);
   }
 }
 
