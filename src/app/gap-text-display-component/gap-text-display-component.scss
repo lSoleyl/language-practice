@@ -8,6 +8,14 @@
   border-radius: 5px;
   padding-left: 2px;
   padding-right: 2px;
+
+  &.correct {
+    background-color: var(--correct-bg-color);
+  }
+
+  &.wrong {
+    background-color: var(--wrong-bg-color);
+  }
 }
 
 :host {
