@@ -1,4 +1,4 @@
-import { Component, inject, signal, type OnInit } from '@angular/core';
+import { Component, inject, type OnInit } from '@angular/core';
 import { HeaderComponent } from './header-component/header-component';
 import { Store } from '@ngrx/store';
 import { navigationActions } from './store/navigation/navigation.actions';
@@ -7,6 +7,7 @@ import { QuizComponent } from './quiz-component/quiz-component';
 import { EditTasksComponent } from './edit-tasks-component/edit-tasks-component';
 import { selectActiveView } from './store/navigation/navigation.selectors';
 import { map } from 'rxjs';
+import { uiActions } from './store/ui/ui.actions';
 
 interface ViewComponent {
   id: string,
@@ -33,6 +34,8 @@ export class App implements OnInit {
   activeComponent$ = this.store.select(selectActiveView).pipe(map(id => VIEW_COMPONENTS.find(view => view.id === id)?.componentType));
 
   ngOnInit(): void {
+    this.store.dispatch(uiActions.loadSavedState());
+
     for (let view of VIEW_COMPONENTS) {
       this.store.dispatch(navigationActions.registerView({id: view.id, description: view.description }));
     }
