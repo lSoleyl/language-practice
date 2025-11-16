@@ -8,8 +8,7 @@ import { navigationActions } from '../store/navigation/navigation.actions';
   selector: 'header-component',
   imports: [AsyncPipe],
   templateUrl: './header-component.html',
-  styleUrl: './header-component.scss',
-  standalone: true
+  styleUrl: './header-component.scss'
 })
 export class HeaderComponent {
   store = inject(Store);

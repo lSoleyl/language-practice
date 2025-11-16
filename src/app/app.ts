@@ -2,21 +2,40 @@ import { Component, inject, signal, type OnInit } from '@angular/core';
 import { HeaderComponent } from './header-component/header-component';
 import { Store } from '@ngrx/store';
 import { navigationActions } from './store/navigation/navigation.actions';
+import { AsyncPipe, NgComponentOutlet } from '@angular/common';
+import { QuizComponent } from './quiz-component/quiz-component';
+import { EditTasksComponent } from './edit-tasks-component/edit-tasks-component';
+import { selectActiveView } from './store/navigation/navigation.selectors';
+import { map } from 'rxjs';
+
+interface ViewComponent {
+  id: string,
+  description: string,
+  componentType: any
+}
+
+
+const VIEW_COMPONENTS: ViewComponent[] = [
+  {id: 'quiz', description: 'Quiz', componentType: QuizComponent },
+  {id: 'edit-tasks', description: 'Aufgaben verwalten', componentType: EditTasksComponent }
+];
+
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.html',
   styleUrl: './app.css',
-  imports: [ HeaderComponent ],
-  standalone: true
+  imports: [HeaderComponent, NgComponentOutlet, AsyncPipe]
 })
 export class App implements OnInit {
   protected readonly title = signal('language-practice');
   store = inject(Store);
 
-  ngOnInit(): void {
-    this.store.dispatch(navigationActions.registerView({id: 'quiz', description: 'Quiz' }));
-    this.store.dispatch(navigationActions.registerView({id: 'edit', description: 'Aufgaben verwalten' }));
-  }
+  activeComponent$ = this.store.select(selectActiveView).pipe(map(id => VIEW_COMPONENTS.find(view => view.id === id)?.componentType));
 
+  ngOnInit(): void {
+    for (let view of VIEW_COMPONENTS) {
+      this.store.dispatch(navigationActions.registerView({id: view.id, description: view.description }));
+    }
+  }
 }

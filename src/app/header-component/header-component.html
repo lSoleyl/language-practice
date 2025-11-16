@@ -1,6 +1,6 @@
 <header>
     @for (view of views$ | async; track view.id) {
-        <button (click)="selectView(view.id)">{{view.description}}</button>
+        <button (click)="selectView(view.id)" [class]="view.active ? 'active' : ''">{{view.description}}</button>
     }
 </header>
 
