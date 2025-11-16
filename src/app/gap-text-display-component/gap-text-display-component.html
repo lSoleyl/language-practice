@@ -1,0 +1,13 @@
+@let task = gapTask$ | async;
+
+@if (task?.description) {
+  <p class="description">{{task?.description}}</p>
+}
+
+@for (element of task?.elements; track $index) {
+  @if (element.isGap) {
+    <span class="gap" contenteditable="plaintext-only" (keypress)="keyPressFilter($event)"></span>
+  } @else {
+    <span>{{element.text}}</span>
+  }
+}

@@ -5,13 +5,13 @@ export type RegisterViewPayload = NavigationEntry;
 
 export interface SelectViewPayload {
   id: string
-}
+};
 
 
 export const navigationActions = createActionGroup({
   source: 'Navigation',
   events: {
     'Register View': props<RegisterViewPayload>(),
-    'Select View': props<SelectViewPayload>()
+    'Select View': props<SelectViewPayload>(),
   }
 });

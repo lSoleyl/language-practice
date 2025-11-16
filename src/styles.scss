@@ -1,17 +1,41 @@
 /* You can add global styles to this file, and also import other style files */
 
+$dark-color: #292929;
+$light-color: white;
 
 :root {
-  --font-color: black;
-  --bg-color: white;
-  --border-color: color-mix(in hsl, var(--font-color) 50%, var(--bg-color) 50%);
+  color-scheme: light dark;
+}
+
+:root[data-theme="light"] {
+  --font-color: #{$dark-color};
+  --bg-color: #{$light-color};
+
+  --highlight-color: yellow;
+  --highlight-bg-color: rgb(255, 255, 157);
 }
 
 
+:root[data-theme="dark"] {
+  --font-color: #{$light-color};
+  --bg-color: #{$dark-color};
+  
+  --highlight-color: yellow;
+  //--highlight-bg-color: hsl(59, 100%, 26%);
+  --highlight-bg-color: rgba(255, 255, 0, 0.5);
+}
+
+:root {
+  --bg-hover-color: color-mix(in hsl, var(--bg-color) 90%, var(--font-color) 10%);
+  --border-color: grey;
+}
 
 
 html {
-  font-size: 20px;
+  color: var(--font-color);
+  background-color: var(--bg-color);
+  font-size: 22px;
+  font-family: Arial, Helvetica, sans-serif
 }
 
 
@@ -20,6 +44,7 @@ html {
 
 button {
   font-size: 1rem;
+  color: var(--font-color);
   padding: 10px;
   border-radius: 5px;
   margin-right: 10px;
@@ -27,9 +52,13 @@ button {
   border: solid var(--border-color) 1px;
 
   &:hover, &.active {
-    background-color: color-mix(in hsl, var(--bg-color) 90%, var(--font-color) 10%);
+    background-color: var(--bg-hover-color);
     border-color: color-mix(in hsl, var(--border-color) 90%, var(--bg-color) 10%);
   }
+}
+
+p {
+  font-size: 1.2rem;
 }
 
 

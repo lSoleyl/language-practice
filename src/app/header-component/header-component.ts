@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store';
 import { selectViews } from '../store/navigation/navigation.selectors';
 import { AsyncPipe } from '@angular/common';
 import { navigationActions } from '../store/navigation/navigation.actions';
+import { uiActions } from '../store/ui/ui.actions';
 
 @Component({
   selector: 'header-component',
@@ -17,5 +18,9 @@ export class HeaderComponent {
 
   selectView(id: string) {
     this.store.dispatch(navigationActions.selectView({id}));
+  }
+
+  toggleTheme() {
+    this.store.dispatch(uiActions.toggleTheme());
   }
 }

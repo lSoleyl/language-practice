@@ -24,11 +24,10 @@ const VIEW_COMPONENTS: ViewComponent[] = [
 @Component({
   selector: 'app-root',
   templateUrl: './app.html',
-  styleUrl: './app.css',
+  styleUrl: './app.scss',
   imports: [HeaderComponent, NgComponentOutlet, AsyncPipe]
 })
 export class App implements OnInit {
-  protected readonly title = signal('language-practice');
   store = inject(Store);
 
   activeComponent$ = this.store.select(selectActiveView).pipe(map(id => VIEW_COMPONENTS.find(view => view.id === id)?.componentType));

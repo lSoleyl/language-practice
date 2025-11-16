@@ -6,7 +6,7 @@ export interface NavigationEntry {
 
 export interface NavigationState {
   activeView: string | undefined;
-  views: NavigationEntry[]
+  views: NavigationEntry[];
 }
 
 

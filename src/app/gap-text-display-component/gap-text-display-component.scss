@@ -1,0 +1,20 @@
+.gap:empty::before {
+  content: '_____';
+  color: var(--font-color);
+}
+
+.gap {
+  background-color: var(--highlight-bg-color);
+  border-radius: 5px;
+  padding-left: 2px;
+  padding-right: 2px;
+}
+
+:host {
+  p.description {
+    font-style: italic;
+    font-size: 1rem;
+  }
+
+  font-size: 1.2rem;
+}

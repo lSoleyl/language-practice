@@ -33,7 +33,7 @@ function _selectView(state: NavigationState, payload: SelectViewPayload) : Navig
 
 
 
-export const navigationReducer = createReducer(
+const navigationReducer = createReducer(
   initialState,
   on(navigationActions.registerView, _registerView),
   on(navigationActions.selectView, _selectView)

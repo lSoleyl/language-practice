@@ -2,5 +2,7 @@
     @for (view of views$ | async; track view.id) {
         <button (click)="selectView(view.id)" [class]="view.active ? 'active' : ''">{{view.description}}</button>
     }
+
+    <button (click)="toggleTheme()">Toggle Theme</button>
 </header>
 
