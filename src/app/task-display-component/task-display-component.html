@@ -1,3 +1,13 @@
+@let task = task$ | async;
+
+@if (task?.category) {
+  <span class="badge">{{task?.category! | taskCategory}}</span>
+}
+
+@if (task?.description) {
+  <p class="description">{{task?.description}}</p>
+}
+
 <ng-container *ngComponentOutlet="displayComponent$ | async; inputs: {'task$': task$, 'triggerCheck$': checkTask}"></ng-container>
 <div class="buttonArea">
   @if (!checkedTask) {

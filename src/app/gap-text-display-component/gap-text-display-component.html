@@ -1,7 +1,3 @@
-@if (currentTask?.description) {
-  <p class="description">{{currentTask?.description}}</p>
-}
-
 @for (element of currentTask?.elements; track $index) {
   @if (element.isGap) {
     @if (element.correct) {

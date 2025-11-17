@@ -1,5 +1,6 @@
 export enum TaskType {
-  GAP_TEXT = 'gap-text'
+  GAP_TEXT = 'gap-text',
+  MULTIPLE_CHOICE = 'multiple-choice'
 };
 
 export enum TaskCategory {
@@ -11,8 +12,8 @@ export interface BasicTask {
   id: number;
   type: TaskType;
   category: TaskCategory;
+  description?: string; // additional aid/description
 }
-
 
 export interface GapTextElement { 
   text: string, 
@@ -21,9 +22,18 @@ export interface GapTextElement {
 
 
 export interface GapTextTask extends BasicTask {
-  description?: string; // additional aid/description
   elements: GapTextElement[];
 }
 
-export type Task = GapTextTask;
+export interface MultipleChoiceOption {
+  text: string;
+  isCorrect?: boolean;
+}
+
+export interface MultipleChoiceTask extends BasicTask {
+  question: string;  
+  choices: MultipleChoiceOption[];
+}
+
+export type Task = GapTextTask | MultipleChoiceTask;
 

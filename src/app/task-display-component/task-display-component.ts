@@ -5,20 +5,23 @@ import { AsyncPipe, NgComponentOutlet } from '@angular/common';
 import { GapTextDisplayComponent } from '../gap-text-display-component/gap-text-display-component';
 import { Store } from '@ngrx/store';
 import { quizActions } from '../store/quiz/quiz.actions';
+import { MultipleChoiceDisplayComponent } from '../multiple-choice-display-component/multiple-choice-display-component';
+import { TaskCategoryPipe } from '../pipes/task-category.pipe';
 
 
 const DISPLAY_COMPONENTS: Record<Task['type'], Type<any>> = {
-  'gap-text': GapTextDisplayComponent
-}
+  'gap-text': GapTextDisplayComponent,
+  'multiple-choice': MultipleChoiceDisplayComponent,
+};
 
 
 @Component({
-  selector: 'quiz-display-component',
-  imports: [NgComponentOutlet, AsyncPipe],
-  templateUrl: './quiz-display-component.html',
-  styleUrl: './quiz-display-component.scss',
+  selector: 'task-display-component',
+  imports: [NgComponentOutlet, AsyncPipe, TaskCategoryPipe],
+  templateUrl: './task-display-component.html',
+  styleUrl: './task-display-component.scss',
 })
-export class QuizDisplayComponent implements OnInit {
+export class TaskDisplayComponent implements OnInit {
   @Input({required:true}) task$?: Observable<Task | null>;
   displayComponent$?: Observable<Type<any> | null>;
   cdRef = inject(ChangeDetectorRef);

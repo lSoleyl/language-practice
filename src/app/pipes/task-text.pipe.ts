@@ -7,7 +7,13 @@ import type { Task } from "../store/task.types";
 })
 export class TaskTextPipe implements PipeTransform {
   transform(task: Task): string {
-    const fullText = task.elements.map(element => element.text).join('');
+    let fullText: string;
+    if ('question' in task) {
+      fullText = task.question;
+    } else {
+      fullText = task.elements.map(element => element.text).join('');
+    }
+    
     if (fullText.length > 80) {
       return fullText.substring(0, 77) + '...';
     }

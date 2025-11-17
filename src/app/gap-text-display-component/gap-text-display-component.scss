@@ -8,21 +8,4 @@
   border-radius: 5px;
   padding-left: 2px;
   padding-right: 2px;
-
-  &.correct {
-    background-color: var(--green-bg-color);
-  }
-
-  &.wrong {
-    background-color: var(--red-bg-color);
-  }
-}
-
-:host {
-  p.description {
-    font-style: italic;
-    font-size: 1rem;
-  }
-
-  font-size: 1.2rem;
 }

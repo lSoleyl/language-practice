@@ -40,8 +40,21 @@ export const initialState: TasksState = {
         {text: 'zum', isGap: true},
         {text: ' Spaß Würstchen grillen.'}
       ]
+    },
+    {
+      id: 2,
+      type: TaskType.MULTIPLE_CHOICE,
+      category: TaskCategory.GRAMMAR,
+      description: "Wie endet der Satz korrekt?",
+      question: "Emma hat Angst, alleine einkaufen zu gehen, denn sie ",
+      choices: [
+        { text: "hat sich als Kind oft verlaufen", isCorrect: true },
+        { text: "verläuft sich als Kind oft" },
+        { text: "hat sich als Kind oft verloren gegangen" },
+        { text: "hat sich als Kind oft verlieren" },
+      ]
     }
   ],
-  nextTaskId: 2
+  nextTaskId: 3
 };
 

@@ -1,4 +1,9 @@
-<p>TODO: display type dropdown, which will control the task edit component to show</p>
+
+<p>Typ: <select>
+@for (taskType of allTaskTypes; track $index) {
+  <option [value]="taskType" (change)="changeTaskType($event)" [selected]="taskType === currentTaskType">{{taskType | taskType}}</option>
+}
+</select></p>
 <p>TODO: display edit component for the task</p>
 <div>
   <button class="save" title="Speichern" (click)="saveTask.emit(task)"><i class="fa-solid fa-check"></i></button>

@@ -9,6 +9,7 @@ export class TaskTypePipe implements PipeTransform {
   transform(type: TaskType): string {
     switch (type) {
       case TaskType.GAP_TEXT: return 'Lückentext';
+      case TaskType.MULTIPLE_CHOICE: return 'Multiple Choice';
       default: return '???';
     }
   }

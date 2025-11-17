@@ -1,8 +1,6 @@
-import { ChangeDetectorRef, Component, inject, Input, type OnDestroy, type OnInit } from '@angular/core';
-import { filter, Subject, takeUntil, type Observable } from 'rxjs';
-import { TaskType, type GapTextElement, type GapTextTask, type Task } from '../store/task.types';
-import { AsyncPipe } from '@angular/common';
-import { Actions } from '@ngrx/effects';
+import { Component } from '@angular/core';
+import { TaskType, type GapTextElement, type GapTextTask } from '../store/task.types';
+import { BasicTaskDisplayComponent } from '../basic-task-display-component/basic-task-display.component';
 
 
 interface ActiveGapElement extends GapTextElement {
@@ -18,26 +16,22 @@ interface ActiveGapTextTask extends GapTextTask {
 
 
 @Component({
-  selector: 'app-gap-text-display-component',
+  selector: 'gap-text-display-component',
   imports: [],
   templateUrl: './gap-text-display-component.html',
   styleUrl: './gap-text-display-component.scss',
 })
-export class GapTextDisplayComponent implements OnInit, OnDestroy {
-  @Input() task$?: Observable<Task>;
-  destroy$ = new Subject<void>();
-  cdRef = inject(ChangeDetectorRef);
+export class GapTextDisplayComponent extends BasicTaskDisplayComponent<GapTextTask> {
   currentTask?: ActiveGapTextTask;
 
-  // Passed as input into this component. This will trigger the check for correctness
-  @Input() triggerCheck$?: Observable<(correct: boolean)=>void>;
-  
+  constructor() {
+    super(TaskType.GAP_TEXT);
+  }
 
-  ngOnInit(): void {
-    this.task$?.pipe(
-      takeUntil(this.destroy$),
-      filter(task => task.type === TaskType.GAP_TEXT)
-    ).subscribe(task => {
+  override ngOnInit(): void {
+    super.ngOnInit();
+
+    this.task$.subscribe(task => {
       this.currentTask = {
         ...task,
         elements: task.elements.map(element => ({...element, enteredText: ''}))
@@ -45,13 +39,6 @@ export class GapTextDisplayComponent implements OnInit, OnDestroy {
       // task changed -> update view
       this.cdRef.markForCheck();
     });
-
-    this.triggerCheck$?.pipe(takeUntil(this.destroy$)).subscribe(callback => callback(this.checkTask()));
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
   }
 
   keyPressFilter(event: KeyboardEvent) {
@@ -66,7 +53,7 @@ export class GapTextDisplayComponent implements OnInit, OnDestroy {
 
   /** Checks whether all inputs were filled correctly an will highlight them accordingly
    */
-  checkTask(): boolean {
+  protected override checkTask(): boolean {
     if (this.currentTask) {
       let result = true;
       for (let element of this.currentTask.elements) {

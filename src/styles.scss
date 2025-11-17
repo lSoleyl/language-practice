@@ -64,8 +64,45 @@ button {
   }
 }
 
-p {
+
+// Global default select style
+
+select {
+  font-size: 1rem;
+  border-radius: 5px;
+  padding: 10px;
+  background-color: var(--bg-color);
+  border: solid var(--border-color) 1px;
+  color: var(--font-color);
+  
+  &:hover, &.active {
+    background-color: var(--bg-hover-color);
+    border-color: color-mix(in hsl, var(--border-color) 90%, var(--bg-color) 10%);
+  }
+}
+
+input[type="checkbox"] {
+  height:1rem;
+  width: 1rem;
+}
+
+
+p, span, div {
   font-size: 1.2rem;
+
+  &.correct, &.gap.correct {
+    background-color: var(--green-bg-color);
+  }
+
+  &.wrong, &.gap.wrong {
+    background-color: var(--red-bg-color);
+  }
+
+  // Task description in smaller font and italic
+  &.description {
+    font-style: italic;
+    font-size: 1rem;
+  }
 }
 
 

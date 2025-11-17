@@ -1,0 +1,9 @@
+<p>{{currentTask?.question}}</p>
+
+@for (choice of currentTask?.choices; track $index) {
+  @if (choice.class) {
+    <div><span [class]="choice.class"><input type="checkbox" disabled="disabled" [checked]="choice.checked"/> {{ choice.text }}</span></div>
+  } @else {
+    <div><span><input type="checkbox" (input)="inputChanged($event, choice)"/> {{ choice.text }}</span></div>
+  }
+}
