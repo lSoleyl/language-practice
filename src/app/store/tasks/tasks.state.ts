@@ -53,8 +53,25 @@ export const initialState: TasksState = {
         { text: "hat sich als Kind oft verloren gegangen" },
         { text: "hat sich als Kind oft verlieren" },
       ]
+    },
+    {
+      id: 3,
+      type: TaskType.MULTIPLE_CHOICE,
+      category: TaskCategory.VOCABULARY,
+      description: "Was ist korrekt?",
+      question: "Timmy hat sich durch eine flinke Art eine goldene Nase verdient.",
+      choices: [
+        { text: "Timmy war besonders schnell", isCorrect: true },
+        { text: "Timmy war besonders langsam" },
+        { text: "Timmy war besonders genau" },
+        { text: "Timmy war besonders faul" },
+        { text: "Timmy hat viel Geld verdient", isCorrect: true },
+        { text: "Timmy ist arm geworden" },
+        { text: "Timmy wurde geschlagen" },
+        { text: "Timmy ist krank geworden" }
+      ]
     }
   ],
-  nextTaskId: 3
+  nextTaskId: 4
 };
 

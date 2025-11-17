@@ -1,6 +1,14 @@
-span {
-  &.correct, &.wrong {
-    border-radius: 5px;
-    padding-right: 5px;
+:host {
+
+  span {
+    &.correct, &.wrong {
+      border-radius: 5px;
+      padding-right: 5px;
+    }
   }
+
+  div.option {
+    padding-top: 5px;
+  }
+
 }
