@@ -1,11 +1,21 @@
+<p>Typ: 
+  <select>
+    @for (taskType of allTaskTypes; track $index) {
+      <option [value]="taskType" (change)="changeTaskType($event)" [selected]="taskType === task.type">{{taskType | taskType}}</option>
+    }
+  </select>
+</p>
+<p>Kategorie:
+  <select>
+    @for (category of allTaskCategories; track $index) {
+      <option [value]="category" (change)="changeTaskType($event)" [selected]="category === task.category">{{category | taskCategory}}</option>
+    }
+  </select>
+</p>
 
-<p>Typ: <select>
-@for (taskType of allTaskTypes; track $index) {
-  <option [value]="taskType" (change)="changeTaskType($event)" [selected]="taskType === currentTaskType">{{taskType | taskType}}</option>
-}
-</select></p>
+
 <p>TODO: display edit component for the task</p>
 <div>
-  <button class="save" title="Speichern" (click)="saveTask.emit(task)"><i class="fa-solid fa-check"></i></button>
-  <button class="delete" title="Löschen" (click)="deleteTask.emit(task)"><i class="fa-solid fa-trash"></i></button>
+  <button class="save" title="Speichern" (click)="saveTask()"><i class="fa-solid fa-check"></i></button>
+  <button class="delete" title="Löschen" (click)="deleteTask()"><i class="fa-solid fa-trash"></i></button>
 </div>

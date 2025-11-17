@@ -1,6 +1,6 @@
-@if (!editedTask) {
-  <edit-tasks-list-component (editTask)="editTask($event)" (deleteTask)="deleteTask($event)"></edit-tasks-list-component>
+@if (editedTask$ | async) {
+  <edit-single-task-component></edit-single-task-component>
 } @else {
-  <edit-single-task-component [task]="editedTask" (saveTask)="saveTask($event)" (deleteTask)="deleteTask($event)"></edit-single-task-component>
+  <edit-tasks-list-component></edit-tasks-list-component>
 }
 

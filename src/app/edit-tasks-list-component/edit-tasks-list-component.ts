@@ -6,6 +6,7 @@ import { TaskTextPipe } from '../pipes/task-text.pipe';
 import { TaskTypePipe } from '../pipes/task-type.pipe';
 import { TaskCategoryPipe } from '../pipes/task-category.pipe';
 import type { Task } from '../store/task.types';
+import { tasksActions } from '../store/tasks/tasks.actions';
 
 @Component({
   selector: 'edit-tasks-list-component',
@@ -16,6 +17,12 @@ import type { Task } from '../store/task.types';
 export class EditTasksListComponent {
   store = inject(Store);
   allTasks$ = this.store.select(tasksFeature.selectTasks);
-  @Output() editTask = new EventEmitter<Task>();
-  @Output() deleteTask = new EventEmitter<Task>();
+
+  editTask(task: Task) {
+    this.store.dispatch(tasksActions.editTask({id: task.id}));
+  }
+
+  deleteTask(task: Task) {
+    this.store.dispatch(tasksActions.deleteTask({id: task.id}));
+  }
 }

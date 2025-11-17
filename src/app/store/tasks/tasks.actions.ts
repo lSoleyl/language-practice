@@ -1,4 +1,4 @@
-import { createActionGroup, props } from "@ngrx/store";
+import { createActionGroup, emptyProps, props } from "@ngrx/store";
 
 export interface TaskIdPayload {
   id: number;
@@ -7,6 +7,8 @@ export interface TaskIdPayload {
 export const tasksActions = createActionGroup({
   source: 'Task',
   events: {
-    'Delete Task': props<TaskIdPayload>()
+    'Edit Task': props<TaskIdPayload>(),
+    'Delete Task': props<TaskIdPayload>(),
+    'Save Task': emptyProps(),
   }
 });

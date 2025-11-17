@@ -8,6 +8,10 @@ import { TaskCategory, TaskType, type Task } from "../task.types";
 export interface TasksState {
   tasks: Task[];
   nextTaskId: number;
+
+  /** The task currently being edited
+   */
+  currentlyEditedTask: Task|null;
 }
 
 export const initialState: TasksState = {
@@ -72,6 +76,7 @@ export const initialState: TasksState = {
       ]
     }
   ],
-  nextTaskId: 4
+  nextTaskId: 4,
+  currentlyEditedTask: null
 };
 

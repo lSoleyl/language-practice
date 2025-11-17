@@ -16,8 +16,8 @@
       <td>{{task.category | taskCategory }}</td>
       <td>{{task | taskText}}</td>
       <td>
-        <button (click)="editTask.emit(task)" title="Ändern"><i class="fa fa-pen-to-square"></i></button>&nbsp;
-        <button (click)="deleteTask.emit(task)" class="delete" title="Löschen"><i class="fa-solid fa-trash"></i></button></td>
+        <button (click)="editTask(task)" title="Ändern"><i class="fa fa-pen-to-square"></i></button>&nbsp;
+        <button (click)="deleteTask(task)" class="delete" title="Löschen"><i class="fa-solid fa-trash"></i></button></td>
     </tr>
   }
   </tbody>
