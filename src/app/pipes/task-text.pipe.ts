@@ -1,5 +1,5 @@
 import { Pipe, type PipeTransform } from "@angular/core";
-import type { Task } from "../store/task.types";
+import { TaskType, type GapTextTask, type MultipleChoiceTask, type Task } from "../store/task.types";
 
 
 @Pipe({
@@ -8,10 +8,12 @@ import type { Task } from "../store/task.types";
 export class TaskTextPipe implements PipeTransform {
   transform(task: Task): string {
     let fullText: string;
-    if ('question' in task) {
-      fullText = task.question;
+    if (task.type === TaskType.MULTIPLE_CHOICE) {
+      fullText = (task as MultipleChoiceTask).question;
+    } else if (task.type === TaskType.GAP_TEXT) {
+      fullText = (task as GapTextTask).elements.map(element => element.text).join('');
     } else {
-      fullText = task.elements.map(element => element.text).join('');
+      fullText = '???';
     }
     
     if (fullText.length > 80) {

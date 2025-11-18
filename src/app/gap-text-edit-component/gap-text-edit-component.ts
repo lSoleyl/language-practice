@@ -57,7 +57,7 @@ export class GapTextEditComponent implements OnInit, OnDestroy {
     }
 
     const paragraph = this.contentElement!.nativeElement;
-    
+
     // When deleting all content in the contenteditable field the browser always leaves behind a <br>... get rid of it
     if (paragraph.innerText === '\n') {
       paragraph.innerText = '';
@@ -170,6 +170,15 @@ export class GapTextEditComponent implements OnInit, OnDestroy {
     if (this.task && !isEqual(this.task.elements, elements)) {
       this.task.elements = elements;
       this.store.dispatch(tasksActions.updateEditedTask({task: this.task}));
+    }
+
+    const paragraph = this.contentElement?.nativeElement!;
+    // Remove all plain text nodes, which are direct children of the paragraph. They can only be created when the input was completely empty before
+    // for an empty task and we must delete them to avoid @for() generating a new copy of the text on each blur
+    for (let node of paragraph.childNodes) {
+      if (node.nodeType === Node.TEXT_NODE) {
+        paragraph.removeChild(node);
+      }
     }
   }
 }

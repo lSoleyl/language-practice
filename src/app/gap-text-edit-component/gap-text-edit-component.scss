@@ -11,4 +11,10 @@
     font-size: 0.5rem;
     font-style: italic;
   }
+
+  .gap-text:empty::before {
+    content: 'Text';
+    font-style: italic;
+    color: color-mix(in hsl, var(--font-color) 85%, var(--bg-color) 15%);
+  }
 }
