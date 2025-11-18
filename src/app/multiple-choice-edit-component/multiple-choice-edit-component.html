@@ -1,1 +1,18 @@
-<p>multiple-choice-edit-component works!</p>
+<p class="question" contenteditable="plaintext-only" [innerText]="task?.question" (blur)="onQuestionBlur($event)" (input)="filterEmptyNewline($event)"></p>
+
+<!-- use table for proper alignment of the delete button -->
+<table>
+  @for (choice of task?.choices; track $index) {
+    <tr class="option">
+      <td>
+        <span><input type="checkbox" (input)="inputChanged($event, choice)" [checked]="choice.isCorrect"/>&nbsp;</span>
+        <span class="choice-text" contenteditable="plaintext-only" [innerText]="choice.text" (blur)="onChoiceBlur($event, choice)" (keydown)="onChoiceKeydown($event)"></span>
+      </td>
+      <td>
+        <button class="delete-option" (click)="deleteChoice(choice)" title="Option löschen"><i class="fa-solid fa-trash"></i></button>
+      </td>
+    </tr>
+  }
+</table>
+
+<button (click)="addChoice()"><i class="fa-solid fa-plus"></i></button>

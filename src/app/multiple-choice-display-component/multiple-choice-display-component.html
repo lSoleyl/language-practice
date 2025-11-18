@@ -1,9 +1,9 @@
-<p>{{currentTask?.question}}</p>
+<p [innerText]="currentTask?.question"></p>
 
 @for (choice of currentTask?.choices; track $index) {
   @if (choice.class) {
-    <div class="option"><span [class]="choice.class"><input type="checkbox" disabled="disabled" [checked]="choice.checked"/> {{ choice.text }}</span></div>
+    <div class="option"><span [class]="choice.class"><input type="checkbox" disabled="disabled" [checked]="choice.checked"/>&nbsp;{{ choice.text }}</span></div>
   } @else {
-    <div class="option"><span><input type="checkbox" (input)="inputChanged($event, choice)"/> {{ choice.text }}</span></div>
+    <div class="option"><span><input type="checkbox" (input)="inputChanged($event, choice)"/>&nbsp;{{ choice.text }}</span></div>
   }
 }
