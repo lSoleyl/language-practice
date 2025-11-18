@@ -3,8 +3,17 @@ import { Store } from '@ngrx/store';
 import { tasksFeature } from '../store/tasks/tasks.reducer';
 import { TaskType, type GapTextElement, type GapTextTask } from '../store/task.types';
 import { filter, map, Subject, takeUntil } from 'rxjs';
-import { cloneDeep, isEqual } from 'lodash';
+import { cloneDeep, findIndex, isEqual, some } from 'lodash';
 import { tasksActions } from '../store/tasks/tasks.actions';
+import { SelectionRange } from '../selection/selection.class';
+
+
+interface TextNodeEntry {
+  node: Node;
+  text: string;
+  isGap: boolean;
+};
+
 
 @Component({
   selector: 'gap-text-edit-component',
@@ -42,46 +51,20 @@ export class GapTextEditComponent implements OnInit, OnDestroy {
 
   /** Calculate the 'elements' array from the paragraph's content and update the currently edited task
    */
-  onBlur(event: Event) {
+  onBlur() {
     if (!this.task) {
       return;
     }
 
-    const parent = this.contentElement!.nativeElement;
+    const paragraph = this.contentElement!.nativeElement;
     
     // When deleting all content in the contenteditable field the browser always leaves behind a <br>... get rid of it
-    if (parent.innerText === '\n') {
-      parent.innerText = '';
+    if (paragraph.innerText === '\n') {
+      paragraph.innerText = '';
     }
     
-    
-    // Now simply iterate over all children and convert them into corresponding gap elements
-    const elements: GapTextElement[] = [];
-    for (let child of parent.childNodes) {
-      if (child.nodeType === Node.TEXT_NODE) {
-        // A simple text node (only achievable when deleting all content or starting with an empty input field)
-        elements.push({text: child.textContent!});
-      } else {
-        // One of the spans, which were created by the @for()
-        const span = child as HTMLSpanElement;
-        const text = span.innerText;
-        if (text) { // ignore empty spans
-          if (span.className === 'gap') {
-            // A gap
-            elements.push({text: span.innerText, isGap: true});
-          } else {
-            // Regular in between text
-            elements.push({text: span.innerText});
-          }
-        }
-      }
-    }
-
-    // Finally update the currently edited task in the store if anything changed (to not perform any update if we just focused something)
-    if (!isEqual(this.task.elements, elements)) {
-      this.task.elements = elements;
-      this.store.dispatch(tasksActions.updateEditedTask({task: this.task}));
-    }
+    // Collect all text nodes and convert them into our gap text structure and update the task from it
+    this.updateFromTextNodeEntries(this.collectAllTextNodes());
   }
 
 
@@ -89,9 +72,104 @@ export class GapTextEditComponent implements OnInit, OnDestroy {
     if (event.key == 'g' && event.ctrlKey) {
       event.preventDefault(); // disable browser default for CTRL+G (which is the same as CTRL+F)
 
-      // Now toggle the selection on the 
-      const element = event.target as HTMLElement;
-      //TODO: implement moving of marked text
+      // Now process the selected content
+      const paragraph = this.contentElement?.nativeElement!;
+      
+      
+      const selection = SelectionRange.getCurrent();
+      if (!selection || !selection.isInElement(paragraph)) {
+        return; // nothing to do
+      }
+
+      if (selection.isEmpty()) {
+        // A simple cursor: expand the selection to include the full word surrounding the cursor
+        selection.expandToFullWord();
+      }
+
+      // We consider a gap marked if the selection contains a gap anywhere...
+      const gapMarked = some(selection.selectionNodes(), node => node.parentElement?.className === 'gap');
+
+      let nodes = this.collectAllTextNodes();
+      const startNodeIndex = findIndex(nodes, entry => entry.node === selection.start.node);
+      
+      const startNode = nodes[startNodeIndex];
+      startNode.text = selection.prefix();
+
+      if (selection.isSingleNode()) {
+        // start node and end node are the same -> split them into two nodes before continuing
+        nodes.splice(startNodeIndex+1, 0, {...startNode, text: selection.suffix()});
+      } else {
+        // otherwise delete all nodes between start and end
+        while (nodes[startNodeIndex+1].node !== selection.end.node) {
+          nodes.splice(startNodeIndex+1, 1);
+        }
+        const endNode = nodes[startNodeIndex+1];
+        endNode.text = selection.suffix();
+      }
+
+      // Now insert the new element after the start element
+      // We use the start nodes Node object, just because the type requires a node
+      nodes.splice(startNodeIndex+1, 0, { text: selection.content(), isGap: !gapMarked, node: startNode.node });
+
+      // Finally filter out any empty gap elements, which we may have created this way
+      nodes = nodes.filter(node => node.text !== '');
+
+
+      // Now update the edited task, which will in turn update the display
+      this.updateFromTextNodeEntries(nodes);
+    }
+  }
+
+  /** Collects all the text child nodes of the conteneditable paragraph element with the node, text content and whether it is marked as gap
+   */
+  private collectAllTextNodes() : TextNodeEntry[] {
+    const nodes: TextNodeEntry[] = [];
+
+    const paragraph = this.contentElement!.nativeElement;
+    for (let child of paragraph.childNodes) {
+      if (child.nodeType === Node.TEXT_NODE) {
+        // a direct text child node of the paragraph... this only happens when deleting all content
+        nodes.push({node: child, text: child.textContent!, isGap: false});
+      } else if (child.nodeType === Node.ELEMENT_NODE) {
+        const childElement = child as HTMLElement;
+        if (childElement.tagName.toLowerCase() === 'span') {
+          // One of the spans, which were created by the @for() all of the children are considered text nodes (some may actually be <br> elements)
+          const span = child as HTMLSpanElement;
+          const isGap = span.className === 'gap';
+          for (let node of span.childNodes) {
+            nodes.push({node: node, text: node.textContent!, isGap: isGap});
+          }
+        } else if (childElement.tagName.toLowerCase() === 'br') {
+          nodes.push({node: childElement, text: '\n', isGap: false });
+        }
+      }
+    }
+    return nodes;
+  }
+
+  /** Converts the passed text node entry array into an array of gap text elements, where neighboring
+   *  elements of the same type have already been merged. It will then update the currently edited task
+   *  from this array if any change is detected.
+   */
+  private updateFromTextNodeEntries(entries: TextNodeEntry[]) {
+    // First convert the text node entries into the gap text element format
+    const elements: GapTextElement[] = entries.map(node => node.isGap ? ({text:node.text, isGap:true}) : ({text:node.text}));
+    
+    // Now merge two neighboring text/gap elements to avoid creating unneeded elements
+    for (let i = 1; i < elements.length;) {
+      if (elements[i].isGap === elements[i-1].isGap) {
+        // Two consecutive same type elements -> combine them into one
+        elements[i-1].text += elements[i].text;
+        elements.splice(i,1); // remove the latter element
+      } else {
+        ++i;
+      }
+    }
+
+    // Finally update the currently edited task in the store if anything changed (to not perform any update if we just focused something)
+    if (this.task && !isEqual(this.task.elements, elements)) {
+      this.task.elements = elements;
+      this.store.dispatch(tasksActions.updateEditedTask({task: this.task}));
     }
   }
 }
