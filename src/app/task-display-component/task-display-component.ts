@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, inject, Input, type OnInit, type Type } from '@angular/core';
-import type { Task } from '../store/task.types';
+import { Task, TaskType } from '../store/task.types';
 import { map, Subject, tap, type Observable } from 'rxjs';
 import { AsyncPipe, NgComponentOutlet } from '@angular/common';
 import { GapTextDisplayComponent } from '../gap-text-display-component/gap-text-display-component';
@@ -9,9 +9,9 @@ import { MultipleChoiceDisplayComponent } from '../multiple-choice-display-compo
 import { TaskCategoryPipe } from '../pipes/task-category.pipe';
 
 
-const DISPLAY_COMPONENTS: Record<Task['type'], Type<any>> = {
-  'gap-text': GapTextDisplayComponent,
-  'multiple-choice': MultipleChoiceDisplayComponent,
+const DISPLAY_COMPONENTS: Record<TaskType, Type<any>> = {
+  [TaskType.GAP_TEXT]: GapTextDisplayComponent,
+  [TaskType.MULTIPLE_CHOICE]: MultipleChoiceDisplayComponent,
 };
 
 

@@ -1,21 +1,23 @@
 <p>Typ: 
-  <select>
+  <select (change)="changeTaskType($event)">
     @for (taskType of allTaskTypes; track $index) {
-      <option [value]="taskType" (change)="changeTaskType($event)" [selected]="taskType === task.type">{{taskType | taskType}}</option>
+      <option [value]="taskType"  [selected]="taskType === task?.type">{{taskType | taskType}}</option>
     }
   </select>
 </p>
 <p>Kategorie:
-  <select>
+  <select (change)="changeTaskCategory($event)">
     @for (category of allTaskCategories; track $index) {
-      <option [value]="category" (change)="changeTaskType($event)" [selected]="category === task.category">{{category | taskCategory}}</option>
+      <option [value]="category" [selected]="category === task?.category">{{category | taskCategory}}</option>
     }
   </select>
 </p>
 
+<p class="description" contenteditable="plaintext-only" (keypress)="filterEnterKey($event)" (input)="filterEmptyNewline($event)" (blur)="updateDescription($event)" [innerText]="task?.description ?? ''"></p>
 
-<p>TODO: display edit component for the task</p>
-<div>
-  <button class="save" title="Speichern" (click)="saveTask()"><i class="fa-solid fa-check"></i></button>
+<ng-container *ngComponentOutlet="editComponent"></ng-container>
+<div class="buttonArea">
+  <button class="back" title="Zurück" (click)="cancelEdit()"><i class="fa-solid fa-angle-left"></i></button>
+  <button class="save" title="Speichern" (click)="saveTask()"><i class="fa-solid fa-floppy-disk"></i></button>
   <button class="delete" title="Löschen" (click)="deleteTask()"><i class="fa-solid fa-trash"></i></button>
 </div>

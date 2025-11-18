@@ -3,10 +3,11 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "ng serve",
+      "name": "chrome",
       "type": "chrome",
       "request": "launch",
-      "preLaunchTask": "npm: start",
+      // We usually already have it running, so just launch the browser
+      // "preLaunchTask": "npm: start",
       "url": "http://localhost:4200/"
     },
     {

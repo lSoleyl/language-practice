@@ -1,6 +1,6 @@
 import { createFeature, createReducer, on } from "@ngrx/store";
 import { initialState, type TasksState } from "./tasks.state";
-import { tasksActions, type TaskIdPayload } from "./tasks.actions";
+import { tasksActions, type TaskIdPayload, type UpdateEditedTaskPayload } from "./tasks.actions";
 import _ from "lodash";
 
 
@@ -8,6 +8,22 @@ function _editTask(state: TasksState, {id}: TaskIdPayload): TasksState {
   return {
     ...state,
     currentlyEditedTask: state.tasks.find(task => task.id === id) ?? null
+  };
+}
+
+
+function _cancelEdit(state: TasksState) : TasksState {
+  return {
+    ...state,
+    currentlyEditedTask: null
+  };
+}
+
+
+function _updateEditedTask(state: TasksState, {task}: UpdateEditedTaskPayload): TasksState {
+  return {
+    ...state,
+    currentlyEditedTask: task
   };
 }
 
@@ -50,6 +66,8 @@ const tasksReducer = createReducer(
   on(tasksActions.editTask, _editTask),
   on(tasksActions.deleteTask, _deleteTask),
   on(tasksActions.saveTask, _saveTask),
+  on(tasksActions.cancelEdit, _cancelEdit),
+  on(tasksActions.updateEditedTask, _updateEditedTask),
 );
 
 export const tasksFeature = createFeature({

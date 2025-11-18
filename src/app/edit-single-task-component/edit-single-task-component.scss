@@ -6,4 +6,13 @@
       background-color: var(--red-bg-hover-color);
     }
   }
+
+  .buttonArea {
+    margin-top: 50px;
+  }
+
+  .description:empty::before {
+    content: 'Beschreibung';
+    color: color-mix(in hsl, var(--font-color) 85%, var(--bg-color) 15%);
+  }
 }
