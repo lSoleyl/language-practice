@@ -1,3 +1,6 @@
-@for (element of task?.elements; track $index) {
-  <span>{{element.text}}</span>
-}
+<p contenteditable="plaintext-only" (keydown)="onKeydown($event)" (blur)="onBlur($event)" #content>
+  @for (element of task?.elements; track $index + element.text) {
+    <span [class]="element.isGap ? 'gap' : ''" [innerText]="element.text"></span>
+  }
+</p>
+<div class="hint">Drücke STRG+G, um markierten Text in eine Lücke umzuwandeln</div>

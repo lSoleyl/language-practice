@@ -1,13 +1,15 @@
-@for (element of currentTask?.elements; track $index) {
-  @if (element.isGap) {
-    @if (element.correct) {
-      <span class="gap correct">{{ element.enteredText }}</span>  
-    } @else if (element.wrong) {
-      <span class="gap wrong" [title]="element.text">{{ element.enteredText }}</span>
+<p>
+  @for (element of currentTask?.elements; track $index) {
+    @if (element.isGap) {
+      @if (element.correct) {
+        <span class="gap correct" [innerText]="element.enteredText"></span>  
+      } @else if (element.wrong) {
+        <span class="gap wrong" [title]="element.text" [innerText]="element.enteredText"></span>
+      } @else {
+        <span class="gap" contenteditable="plaintext-only" (keypress)="keyPressFilter($event)" (input)="gapInput($event, element)"></span>
+      }
     } @else {
-      <span class="gap" contenteditable="plaintext-only" (keypress)="keyPressFilter($event)" (input)="gapInput($event, element)"></span>
+      <span [innerText]="element.text"></span>
     }
-  } @else {
-    <span>{{element.text}}</span>
   }
-}
+</p>
