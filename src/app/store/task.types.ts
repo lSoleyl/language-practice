@@ -16,7 +16,7 @@ export interface BasicTask {
   id: number;
   type: TaskType;
   category: TaskCategory;
-  description?: string; // additional aid/description
+  description: string; // additional aid/description
 
   lastModified: string;
   created: string;

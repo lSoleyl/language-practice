@@ -1,7 +1,7 @@
 import { createFeature, createReducer, on } from "@ngrx/store";
 import { initialState, type TasksState } from "./tasks.state";
-import { tasksActions, type TaskIdPayload, type UpdateEditedTaskPayload } from "./tasks.actions";
-import { TaskCategory, TaskType } from "../task.types";
+import { tasksActions, type ChangeTaskTypePayload, type TaskIdPayload, type UpdateEditedTaskPayload } from "./tasks.actions";
+import { TaskCategory, TaskType, type BasicTask, type GapTextTask, type MultipleChoiceTask, type Task } from "../task.types";
 import _ from "lodash";
 
 
@@ -81,12 +81,61 @@ function _createNewTask(state: TasksState): TasksState {
       // define the default task here
       id: state.nextTaskId,
       type: TaskType.GAP_TEXT,
+      description: '',
       category: TaskCategory.GRAMMAR,
       elements: [],
       created: new Date().toISOString(),
       lastModified: new Date().toISOString()
     }
+  };
+}
+
+
+function getTaskText(task: Task) : string {
+  switch (task.type) {
+    case TaskType.GAP_TEXT: return (task as GapTextTask).elements.map(element => element.text).join("");
+    case TaskType.MULTIPLE_CHOICE: return (task as MultipleChoiceTask).question;
   }
+}
+
+
+/** Converts a basic task and the task's text into a task of the specified task type.
+ * 
+ * @param source the task to convert from and assign the basic task properties from
+ * @param text the text content of the source task
+ * @param taskType the type of the new task to create
+ * @returns a newly created task with most of the content from the source task
+ */
+function convertTask(source: BasicTask, text: string, taskType: TaskType): Task {
+  switch (taskType) {
+    case TaskType.GAP_TEXT: return {
+      ..._.pick(source, 'id', 'description', 'category', 'created', 'lastModified'),
+      type: taskType,
+      elements: [{text}]
+    };
+
+    case TaskType.MULTIPLE_CHOICE: return {
+      ..._.pick(source, 'id', 'description', 'category', 'created', 'lastModified'),
+      type: taskType,
+      question: text,
+      choices: []
+    };
+  }
+}
+
+
+function _changeTaskType(state: TasksState, {taskType}: ChangeTaskTypePayload): TasksState {
+  if (state.currentlyEditedTask && state.currentlyEditedTask.type !== taskType) {
+    // Initialize the new task with information from the previous while omitting data, which is obsolete for the new task type
+    const text = getTaskText(state.currentlyEditedTask);
+
+    state = {
+      ...state,
+      currentlyEditedTask: convertTask(state.currentlyEditedTask, text, taskType)
+    };
+  }
+
+  return state;
 }
 
 
@@ -98,6 +147,7 @@ const tasksReducer = createReducer(
   on(tasksActions.cancelEdit, _cancelEdit),
   on(tasksActions.updateEditedTask, _updateEditedTask),
   on(tasksActions.createNewTask, _createNewTask),
+  on(tasksActions.changeTaskType, _changeTaskType)
 );
 
 export const tasksFeature = createFeature({

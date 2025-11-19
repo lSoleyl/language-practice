@@ -37,7 +37,6 @@ export class EditSingleTaskComponent implements OnInit, OnDestroy {
   allTaskCategories = ALL_TASK_CATEGORIES;
   currentTaskCategory?: TaskCategory;
 
-  //TODO: select currentTaskType in the select
   ngOnInit(): void {
     this.task$.pipe(takeUntil(this.destroy$)).subscribe(task => {
       this.task = task ? cloneDeep(task) : null;
@@ -53,8 +52,7 @@ export class EditSingleTaskComponent implements OnInit, OnDestroy {
 
   changeTaskType(event: Event) {
     if (this.task) {
-      this.task.type = (event.target as HTMLSelectElement).value as TaskType;
-      this.store.dispatch(tasksActions.updateEditedTask({task: this.task}));
+      this.store.dispatch(tasksActions.changeTaskType({taskType: (event.target as HTMLSelectElement).value as TaskType}));
     }
   }
 

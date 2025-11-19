@@ -1,5 +1,5 @@
 import { createActionGroup, emptyProps, props } from "@ngrx/store";
-import type { Task } from "../task.types";
+import type { Task, TaskType } from "../task.types";
 
 export interface TaskIdPayload {
   id: number;
@@ -7,6 +7,10 @@ export interface TaskIdPayload {
 
 export interface UpdateEditedTaskPayload {
   task: Task;
+}
+
+export interface ChangeTaskTypePayload {
+  taskType: TaskType;
 }
 
 export const tasksActions = createActionGroup({
@@ -17,6 +21,11 @@ export const tasksActions = createActionGroup({
     /** This action is used while changing properties of the currently edited task.
      */
     'Update Edited Task': props<UpdateEditedTaskPayload>(),
+
+    /** Used to change the type of the current task while preserving the main content by transferring it to the new task
+     *  and filtering out unneeded properties.
+     */
+    'Change Task Type': props<ChangeTaskTypePayload>(),
 
     /** Create a new task for editing
      */
