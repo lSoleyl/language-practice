@@ -18,6 +18,10 @@ export const tasksActions = createActionGroup({
      */
     'Update Edited Task': props<UpdateEditedTaskPayload>(),
 
+    /** Create a new task for editing
+     */
+    'Create New Task': emptyProps(),
+
     /** Cancel edit of currently edited task
      */
     'Cancel Edit': emptyProps(),

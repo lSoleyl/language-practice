@@ -1,6 +1,7 @@
 import { createFeature, createReducer, on } from "@ngrx/store";
 import { initialState, type TasksState } from "./tasks.state";
 import { tasksActions, type TaskIdPayload, type UpdateEditedTaskPayload } from "./tasks.actions";
+import { TaskCategory, TaskType } from "../task.types";
 import _ from "lodash";
 
 
@@ -52,13 +53,29 @@ function _saveTask(state: TasksState): TasksState {
         ...state.tasks.filter(task => task.id !== state.currentlyEditedTask!.id),
         state.currentlyEditedTask
       ], state => state.id),
-      currentlyEditedTask: null
+      currentlyEditedTask: null,
+
+      // Increment the task id in case we created a new task
+      nextTaskId: state.currentlyEditedTask!.id === state.nextTaskId ? state.nextTaskId+1 : state.nextTaskId
     }
   }
 
   return state;
 }
 
+
+function _createNewTask(state: TasksState): TasksState {
+  return {
+    ...state, 
+    currentlyEditedTask: {
+      // define the default task here
+      id: state.nextTaskId,
+      type: TaskType.GAP_TEXT,
+      category: TaskCategory.GRAMMAR,
+      elements: []
+    }
+  }
+}
 
 
 const tasksReducer = createReducer(
@@ -68,6 +85,7 @@ const tasksReducer = createReducer(
   on(tasksActions.saveTask, _saveTask),
   on(tasksActions.cancelEdit, _cancelEdit),
   on(tasksActions.updateEditedTask, _updateEditedTask),
+  on(tasksActions.createNewTask, _createNewTask),
 );
 
 export const tasksFeature = createFeature({

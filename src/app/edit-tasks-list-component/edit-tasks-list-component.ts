@@ -25,4 +25,8 @@ export class EditTasksListComponent {
   deleteTask(task: Task) {
     this.store.dispatch(tasksActions.deleteTask({id: task.id}));
   }
+
+  editNewTask() {
+    this.store.dispatch(tasksActions.createNewTask());
+  }
 }
