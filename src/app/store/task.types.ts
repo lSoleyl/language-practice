@@ -18,7 +18,8 @@ export interface BasicTask {
   category: TaskCategory;
   description?: string; // additional aid/description
 
-  //TODO: creation date, modification date
+  lastModified: string;
+  created: string;
 }
 
 export interface GapTextElement { 

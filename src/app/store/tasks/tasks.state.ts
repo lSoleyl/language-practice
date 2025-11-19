@@ -27,7 +27,9 @@ export const initialState: TasksState = {
         {text: ' Hause und spiele '},
         {text: 'zu', isGap: true},
         {text: ' Hause Computer.'}
-      ]
+      ],
+      lastModified: "2025-11-19T21:05:00Z",
+      created: "2025-11-19T21:05:00Z"
     },
     {
       id: 1,
@@ -43,7 +45,9 @@ export const initialState: TasksState = {
         {text: ', wie Nachbarn '},
         {text: 'zum', isGap: true},
         {text: ' Spaß Würstchen grillen.'}
-      ]
+      ],
+      lastModified: "2025-11-19T21:05:00Z",
+      created: "2025-11-19T21:05:00Z"
     },
     {
       id: 2,
@@ -56,7 +60,9 @@ export const initialState: TasksState = {
         { text: "verläuft sich als Kind oft" },
         { text: "hat sich als Kind oft verloren gegangen" },
         { text: "hat sich als Kind oft verlieren" },
-      ]
+      ],
+      lastModified: "2025-11-19T21:05:00Z",
+      created: "2025-11-19T21:05:00Z"
     },
     {
       id: 3,
@@ -73,7 +79,9 @@ export const initialState: TasksState = {
         { text: "Timmy ist arm geworden" },
         { text: "Timmy wurde geschlagen" },
         { text: "Timmy ist krank geworden" }
-      ]
+      ],
+      lastModified: "2025-11-19T21:05:00Z",
+      created: "2025-11-19T21:05:00Z"
     }
   ],
   nextTaskId: 4,

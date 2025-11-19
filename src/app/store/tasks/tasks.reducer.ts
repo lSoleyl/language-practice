@@ -57,7 +57,11 @@ function _saveTask(state: TasksState): TasksState {
       ...state, 
       tasks: _.sortBy([
         ...state.tasks.filter(task => task.id !== state.currentlyEditedTask!.id),
-        state.currentlyEditedTask
+        {
+          // Update the modified timestamp of the edited task
+          ...state.currentlyEditedTask,
+          lastModified: new Date().toISOString()
+        }
       ], state => state.id),
       currentlyEditedTask: null,
 
@@ -78,7 +82,9 @@ function _createNewTask(state: TasksState): TasksState {
       id: state.nextTaskId,
       type: TaskType.GAP_TEXT,
       category: TaskCategory.GRAMMAR,
-      elements: []
+      elements: [],
+      created: new Date().toISOString(),
+      lastModified: new Date().toISOString()
     }
   }
 }
