@@ -40,6 +40,12 @@ function _deleteTask(state: TasksState, {id}: TaskIdPayload): TasksState {
 
       currentlyEditedTask: (state.currentlyEditedTask?.id === id) ? null : state.currentlyEditedTask
     };
+  } else if (state.currentlyEditedTask?.id === id) {
+    // This is a newly created task we are trying to delete -> simply clear the currently edited task
+    state = {
+      ...state,
+      currentlyEditedTask: null
+    };
   }
 
   return state;
