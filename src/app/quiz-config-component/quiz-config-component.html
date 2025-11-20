@@ -1,0 +1,21 @@
+<table>
+  <tr><td><span class="label">Aufgabentyp:</span></td>
+    @for (taskType of allTaskTypes; track $index) {
+      <td>
+        <span class="option"><input type="checkbox" [checked]="this.typeFilter.includes(taskType)" (change)="toggleTypeFilter(taskType)"/> {{taskType | taskType}}</span>
+      </td>
+    }
+  </tr>
+  <tr>
+    <td><span class="label">Aufgabenkategorie:</span></td>
+    @for (taskCategory of allTaskCategories; track $index) {
+      <td>
+        <span class="option"><input type="checkbox" [checked]="this.categoryFilter.includes(taskCategory)" (change)="toggleCategoryFilter(taskCategory)"/> {{taskCategory | taskCategory}}</span>
+      </td>
+    }
+  </tr>
+</table>
+
+<div class="buttonBar">
+  <button (click)="startQuiz()">Quiz starten</button>
+</div>

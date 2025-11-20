@@ -1,21 +1,21 @@
-import { createActionGroup, props } from "@ngrx/store";
+import { createActionGroup, emptyProps, props } from "@ngrx/store";
 import type { Task } from "../task.types";
+import type { QuizSettings } from "./quiz.state";
 
 
 export interface SelectTaskPayload {
   task: Task | null
 };
 
-
-export interface SelectRandomTaskPayload {
-  category?: string; // optional category filter
-  taskType?: string; // optional type filter
+export interface UpdateQuizSettingsPayload {
+  settings: QuizSettings
 };
 
 export const quizActions = createActionGroup({
   source: 'Quiz',
   events: {
     'Select Task': props<SelectTaskPayload>(),
-    'Select Random Task': props<SelectRandomTaskPayload>()
+    'Select Next Task': emptyProps(),
+    'Update Quiz Settings': props<UpdateQuizSettingsPayload>()
   }
 });

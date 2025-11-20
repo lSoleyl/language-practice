@@ -1,2 +1,7 @@
-<!-- TODO: first display a filter selection -->
-<task-display-component [task$]="task$"></task-display-component>
+@if (task$ | async) {
+  <!-- display task if a task has been selected -->
+  <task-display-component [task$]="task$"></task-display-component>
+} @else {
+  <!-- otherwise configure the quiz first -->
+  <quiz-config-component></quiz-config-component>
+}

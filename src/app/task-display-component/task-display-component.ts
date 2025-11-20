@@ -45,7 +45,15 @@ export class TaskDisplayComponent implements OnInit {
   }
 
   nextTask() {
-    //FIXME: pass whichever filter was set by the user
-    this.store.dispatch(quizActions.selectRandomTask({}));
+    this.store.dispatch(quizActions.selectNextTask());
+  }
+
+  skipTask() {
+    //TODO: add counter for skipped/correct/wrong
+    this.store.dispatch(quizActions.selectNextTask());
+  }
+
+  abortQuiz() {
+    this.store.dispatch(quizActions.selectTask({task: null}));
   }
 }

@@ -6,7 +6,11 @@ import { TaskType } from "../store/task.types";
   name: 'taskType'
 })
 export class TaskTypePipe implements PipeTransform {
-  transform(type: TaskType): string {
+  transform(type: TaskType | null): string {
+    if (!type) {
+      return '';
+    }
+
     switch (type) {
       case TaskType.GAP_TEXT: return 'Lückentext';
       case TaskType.MULTIPLE_CHOICE: return 'Multiple Choice';
