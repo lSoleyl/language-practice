@@ -1,12 +1,15 @@
-import { Component, inject, type OnDestroy, type OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, type OnDestroy, type OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { quizFeature } from '../store/quiz/quiz.reducer';
-import { ALL_TASK_CATEGORIES, ALL_TASK_TYPES, type TaskCategory, type TaskType } from '../store/task.types';
+import { ALL_TASK_CATEGORIES, ALL_TASK_TYPES, type Task, type TaskCategory, type TaskType } from '../store/task.types';
 import { TaskTypePipe } from '../pipes/task-type.pipe';
 import { TaskCategoryPipe } from '../pipes/task-category.pipe';
 import { Subject, takeUntil } from 'rxjs';
-import { pull } from 'lodash';
+import { cloneDeep, pull } from 'lodash';
 import { quizActions } from '../store/quiz/quiz.actions';
+import { tasksFeature } from '../store/tasks/tasks.reducer';
+import { taskMatchesFilter } from '../store/quiz/quiz.functions';
+import type { QuizSettings } from '../store/quiz/quiz.state';
 
 @Component({
   selector: 'quiz-config-component',
@@ -16,20 +19,30 @@ import { quizActions } from '../store/quiz/quiz.actions';
 })
 export class QuizConfigComponent implements OnInit, OnDestroy {
   store = inject(Store);
-  settings$ = this.store.select(quizFeature.selectSettings);
+  cdRef = inject(ChangeDetectorRef);
   destroy$ = new Subject<void>();
+  tasks: Task[] = [];
 
   allTaskTypes = ALL_TASK_TYPES;
   allTaskCategories = ALL_TASK_CATEGORIES;
 
-  typeFilter: TaskType[] = [];
-  categoryFilter: TaskCategory[] = [];
+  settings: QuizSettings = {
+    types: [],
+    categories: []
+  };
+
+  matchedTasks = 0;
 
 
   ngOnInit(): void {
-    this.settings$.pipe(takeUntil(this.destroy$)).subscribe(settings => {
-      this.typeFilter = [...settings.types];
-      this.categoryFilter = [...settings.categories];
+    this.store.select(quizFeature.selectSettings).pipe(takeUntil(this.destroy$)).subscribe(settings => {
+      this.settings = cloneDeep(settings);
+      this.updateTaskNumbers();
+    });
+
+    this.store.select(tasksFeature.selectTasks).pipe(takeUntil(this.destroy$)).subscribe(tasks => {
+      this.tasks = tasks;
+      this.updateTaskNumbers();
     });
   }
 
@@ -40,27 +53,30 @@ export class QuizConfigComponent implements OnInit, OnDestroy {
   }
 
   toggleTypeFilter(type: TaskType) {
-    if (this.typeFilter.includes(type)) {
-      pull(this.typeFilter, type);
+    if (this.settings.types.includes(type)) {
+      pull(this.settings.types, type);
     } else {
-      this.typeFilter.push(type);
+      this.settings.types.push(type);
     }
+    this.updateTaskNumbers();
   }
 
   toggleCategoryFilter(category: TaskCategory) {
-    if (this.categoryFilter.includes(category)) {
-      pull(this.categoryFilter, category);
+    if (this.settings.categories.includes(category)) {
+      pull(this.settings.categories, category);
     } else {
-      this.categoryFilter.push(category);
+      this.settings.categories.push(category);
     }
+    this.updateTaskNumbers();
+  }
+
+  updateTaskNumbers() {
+    this.matchedTasks = this.tasks.filter(task => taskMatchesFilter(task, this.settings)).length;
+    this.cdRef.markForCheck();
   }
 
   startQuiz() {
-    this.store.dispatch(quizActions.updateQuizSettings({settings: {
-      types: this.typeFilter,
-      categories: this.categoryFilter
-    }}));
-    
+    this.store.dispatch(quizActions.updateQuizSettings({settings: this.settings}));
     this.store.dispatch(quizActions.selectNextTask());
   }
 }
