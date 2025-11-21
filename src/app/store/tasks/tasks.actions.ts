@@ -13,6 +13,13 @@ export interface ChangeTaskTypePayload {
   taskType: TaskType;
 }
 
+export interface SetLoadedTasksStatePayload {
+  state: {
+    tasks: Task[];
+    nextTaskId: number;
+  }
+}
+
 export const tasksActions = createActionGroup({
   source: 'Task',
   events: {
@@ -22,7 +29,7 @@ export const tasksActions = createActionGroup({
      */
     'Update Edited Task': props<UpdateEditedTaskPayload>(),
 
-    /** Used to change the type of the current task while preserving the main content by transferring it to the new task
+    /** Used to change the type of the currently edited task while preserving the main content by transferring it to the new task
      *  and filtering out unneeded properties.
      */
     'Change Task Type': props<ChangeTaskTypePayload>(),
@@ -39,5 +46,13 @@ export const tasksActions = createActionGroup({
     /** Save the currently edited overwriting the previous version in state.tasks and clearing the currently edited task
      */
     'Save Task': emptyProps(),
+
+    /** Loads the saved tasks state from local storage (if available)
+     */
+    'Load Saved State': emptyProps(),
+
+    /** Action for assigning the loaded state into the store
+     */
+    'Set Loaded Tasks State': props<SetLoadedTasksStatePayload>()
   }
 });

@@ -8,6 +8,7 @@ import { provideEffects } from '@ngrx/effects';
 import { QuizEffects } from './store/quiz/quiz.effects';
 import { uiFeature } from './store/ui/ui.reducer';
 import { UIEffects } from './store/ui/ui.effects';
+import { TasksEffects } from './store/tasks/tasks.effects';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -20,6 +21,7 @@ export const appConfig: ApplicationConfig = {
     provideState(uiFeature),
     provideEffects(QuizEffects),
     provideEffects(UIEffects),
+    provideEffects(TasksEffects),
     provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() })
 ]
 };

@@ -1,6 +1,6 @@
 import { createFeature, createReducer, on } from "@ngrx/store";
 import { initialState, type TasksState } from "./tasks.state";
-import { tasksActions, type ChangeTaskTypePayload, type TaskIdPayload, type UpdateEditedTaskPayload } from "./tasks.actions";
+import { tasksActions, type ChangeTaskTypePayload, type SetLoadedTasksStatePayload, type TaskIdPayload, type UpdateEditedTaskPayload } from "./tasks.actions";
 import { TaskCategory, TaskType, type BasicTask, type GapTextTask, type MultipleChoiceTask, type Task } from "../task.types";
 import _ from "lodash";
 
@@ -139,6 +139,14 @@ function _changeTaskType(state: TasksState, {taskType}: ChangeTaskTypePayload): 
 }
 
 
+function _setLoadedTasksState(state: TasksState, {state: loaded}: SetLoadedTasksStatePayload): TasksState  {
+  return {
+    ...loaded,
+    currentlyEditedTask: null
+  };
+}
+
+
 const tasksReducer = createReducer(
   initialState,
   on(tasksActions.editTask, _editTask),
@@ -147,7 +155,8 @@ const tasksReducer = createReducer(
   on(tasksActions.cancelEdit, _cancelEdit),
   on(tasksActions.updateEditedTask, _updateEditedTask),
   on(tasksActions.createNewTask, _createNewTask),
-  on(tasksActions.changeTaskType, _changeTaskType)
+  on(tasksActions.changeTaskType, _changeTaskType),
+  on(tasksActions.setLoadedTasksState, _setLoadedTasksState),
 );
 
 export const tasksFeature = createFeature({
