@@ -54,6 +54,8 @@ export class MultipleChoiceDisplayComponent extends BasicTaskDisplayComponent<Mu
           choice.class = 'correct';
         }
       }
+      
+      return result;
     }
 
     return false;

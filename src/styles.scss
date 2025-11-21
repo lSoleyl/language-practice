@@ -16,6 +16,10 @@ $light-color: white;
 
   --green-bg-color: rgba(0, 128, 0, 0.5);
   --red-bg-color: rgba(255, 0, 0, 0.5);
+
+  --green-fg-color: rgb(0, 146, 0);
+  --red-fg-color: rgb(173, 0, 0);
+  --orange-fg-color: rgb(201, 130, 0);
 }
 
 
@@ -29,6 +33,10 @@ $light-color: white;
 
   --green-bg-color: rgba(0, 128, 0, 0.5);
   --red-bg-color: rgba(255, 0, 0, 0.5);
+
+  --green-fg-color: rgb(0, 184, 0);
+  --red-fg-color: rgb(238, 0, 0);
+  --orange-fg-color: orange;
 }
 
 :root {

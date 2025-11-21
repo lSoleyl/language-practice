@@ -77,6 +77,7 @@ export class QuizConfigComponent implements OnInit, OnDestroy {
 
   startQuiz() {
     this.store.dispatch(quizActions.updateQuizSettings({settings: this.settings}));
+    this.store.dispatch(quizActions.updateQuizStats({stats: {correct:0, skipped:0, wrong:0}}));
     this.store.dispatch(quizActions.selectNextTask());
   }
 }

@@ -13,4 +13,23 @@
   .abort {
     float: right;
   }
+
+  .stats {
+    margin-top: 1rem;
+    font-size: 0.75rem;
+
+    &>span {
+      font-size: 0.75rem;
+    }
+
+    &>.correct-stats {
+      color: var(--green-fg-color);
+    }
+    &>.wrong-stats {
+      color: var(--red-fg-color);
+    }
+    &>.skipped-stats {
+      color: var(--orange-fg-color);
+    }
+  }
 }

@@ -15,6 +15,13 @@ export interface QuizSettings {
 }
 
 
+export interface QuizStats {
+  correct: number;
+  wrong: number;
+  skipped: number;
+}
+
+
 export interface QuizState {
   /** The currently displayed quiz task
    */
@@ -24,7 +31,9 @@ export interface QuizState {
    */
   settings: QuizSettings;
 
-  //TODO: add stats of quiz so far
+  /** The stats for the currently active quiz
+   */
+  stats: QuizStats;
 }
 
 
@@ -33,5 +42,10 @@ export const initialState: QuizState = {
   settings: {
     categories: ALL_TASK_CATEGORIES,
     types: ALL_TASK_TYPES
+  },
+  stats: {
+    correct: 0,
+    wrong: 0,
+    skipped: 0
   }
 };

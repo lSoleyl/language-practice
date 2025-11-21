@@ -18,3 +18,8 @@
   }
   <button (click)="abortQuiz()" class="abort" title="Quiz abbrechen, zurück zu Einstellungen"><i class="fa-solid fa-angle-up"></i></button>
 </div>
+<div class="stats">
+  <span class="correct-stats">Korrekt: {{stats.correct}}</span> / 
+  <span class="wrong-stats">Falsch: {{stats.wrong}}</span> / 
+  <span class="skipped-stats">Übersprungen: {{stats.skipped}}</span> / Gesamt: {{stats.correct + stats.wrong + stats.skipped}}
+</div>

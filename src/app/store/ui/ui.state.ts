@@ -5,5 +5,5 @@ export interface UIState {
 };
 
 export const initialState: UIState = {
-  theme: 'light'
+  theme: 'dark'
 };
