@@ -41,17 +41,28 @@ export class SelectionRange {
   /** Expands the selection range to include full words. Stops at the first whitespace character or end of node.
    */
   expandToFullWord() {
-    while (this.start.offset > 0 && this.start.node.textContent![this.start.offset-1].trim() != '') {
+    while (this.start.offset > 0 && !this.isWordEnd(this.start.node.textContent![this.start.offset-1])) {
       --this.start.offset;
     }
 
-    // Only expand end selection if the end does not already include a whitespace
-    if (this.end.node.textContent![this.end.offset-1].trim() != '') {
-      while (this.end.node.textContent![this.end.offset] && this.end.node.textContent![this.end.offset].trim() != '') {
+    // Only expand end selection if the end does not already end at a word
+    if (!this.isWordEnd(this.end.node.textContent![this.end.offset-1])) {
+      while (this.end.node.textContent![this.end.offset] && !this.isWordEnd(this.end.node.textContent![this.end.offset])) {
         ++this.end.offset;
       }
     }
   }
+
+  /** Returns true if the given string is a word end character (whitespace, ',', '.')
+   */
+  private isWordEnd(letter: string): boolean {
+    if (letter.trim() === '') {
+      return true; // whitespace
+    }
+
+    return letter === ',' || letter === '.';
+  }
+
 
   /** Returns true if start node and end node are contained within the specified element
    */
