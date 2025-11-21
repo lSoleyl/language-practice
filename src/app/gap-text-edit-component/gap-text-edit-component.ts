@@ -32,6 +32,11 @@ export class GapTextEditComponent implements OnInit, OnDestroy {
   destroy$ = new Subject<void>();
   cdRef = inject(ChangeDetectorRef);
 
+  /** Use to assign a unique id to each ever seen GapTextElement to 
+   *  avoid all the editing bugs caused by element tracking of @for
+   */
+  trackIds = new Map<GapTextElement, number>();
+
   ngOnInit(): void {
     this.task$.pipe(
       takeUntil(this.destroy$),
@@ -46,6 +51,18 @@ export class GapTextEditComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+
+  /** Assigns each element a unique id. The only purpose is to defeat the mandatory element tracking in @for
+   *  as it causes all kinds of editing issues in combination with the contenteditable paragraph element
+   */
+  trackId(element: GapTextElement): number {
+    if (this.trackIds.has(element)) {
+      return this.trackIds.get(element)!;
+    }
+
+    this.trackIds.set(element, this.trackIds.size);
+    return this.trackIds.get(element)!;
   }
 
 

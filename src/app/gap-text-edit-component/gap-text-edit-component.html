@@ -1,5 +1,5 @@
 <p class="gap-text" contenteditable="plaintext-only" (keydown)="onKeydown($event)" (blur)="onBlur()" #content>
-  @for (element of task?.elements; track $index + element.text) {
+  @for (element of task?.elements; track trackId(element)) {
     <span [class]="element.isGap ? 'gap' : ''" [innerText]="element.text"></span>
   }
 </p>
