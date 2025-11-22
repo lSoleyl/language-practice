@@ -6,7 +6,7 @@ IF NOT EXIST dist (
   npm ci
 
   ECHO Building project...
-  ng build --configuration production
+  npm run build
 ) ELSE (
   IF NOT EXIST node_modules (
     REM for just running we only need express

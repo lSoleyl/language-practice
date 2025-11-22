@@ -4,6 +4,8 @@ German language practicing project supporting multiple kinds of tasks, random ta
 
 The project is a Zoneless angular projects, which uses ngrx for state management, and makes use of `NgComponentOutlet` for displaying the different kinds of tasks.
 
+You can check out a live version of this project [here](https://lsoleyl.de/language-practice/). The tasks are stored in the local storage of the browser.
+You can run the project in the locally provide `micro-ws` webserver, which supports persisting the created tasks to a tasks.json file to not lose all tasks when clearing the browser storage.
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.10.
 
@@ -14,7 +16,7 @@ Simply run the `start-server.bat` install dependencies and launch a minimal webs
 Or in manual steps:
 
     npm ci
-    ng build --configuration production
+    npm run build
     node micro-ws
 
 ## Development server
