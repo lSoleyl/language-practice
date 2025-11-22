@@ -1,4 +1,4 @@
-// A very simply http server for hosting this app while also supporting a PUT /tasks.json request
+// A very simple http server for hosting this app while also supporting a PUT /tasks.json request
 
 const express = require('express');
 const path = require('node:path');
@@ -23,5 +23,6 @@ app.put('/tasks.json', (req, res) => {
 app.listen(port, () => {
   console.log(`Webserver listening on ${url}`);
   console.log(`Serving files from: ${root}`);
+  // Open the URL in the default browser
   child_process.exec(`START ${url}`);
 });
