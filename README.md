@@ -7,6 +7,15 @@ The project is a Zoneless angular projects, which uses ngrx for state management
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.10.
 
+## How to run?
+
+Simply run the `start-server.bat` install dependencies and launch a minimal webserver, that supports persisting tasks in a file as to lot lose them once the browser cache is cleared.
+
+Or in manual steps:
+
+    npm ci
+    ng build --configuration production
+    node micro-ws
 
 ## Development server
 

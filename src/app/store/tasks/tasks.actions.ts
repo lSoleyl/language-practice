@@ -1,5 +1,6 @@
 import { createActionGroup, emptyProps, props } from "@ngrx/store";
 import type { Task, TaskType } from "../task.types";
+import type { PersistableTaskState } from "./tasks.state";
 
 export interface TaskIdPayload {
   id: number;
@@ -14,10 +15,7 @@ export interface ChangeTaskTypePayload {
 }
 
 export interface SetLoadedTasksStatePayload {
-  state: {
-    tasks: Task[];
-    nextTaskId: number;
-  }
+  state: PersistableTaskState;
 }
 
 export const tasksActions = createActionGroup({

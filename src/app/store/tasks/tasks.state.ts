@@ -3,12 +3,14 @@
 import { TaskCategory, TaskType, type Task } from "../task.types";
 
 
-//TODO: store some statistics data in the tasks too
-
-export interface TasksState {
+export interface PersistableTaskState {
   tasks: Task[];
   nextTaskId: number;
+}
 
+//TODO: store some statistics data in the tasks too
+
+export interface TasksState extends PersistableTaskState {
   /** The task currently being edited
    */
   currentlyEditedTask: Task|null;

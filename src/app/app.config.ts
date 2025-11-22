@@ -9,6 +9,7 @@ import { QuizEffects } from './store/quiz/quiz.effects';
 import { uiFeature } from './store/ui/ui.reducer';
 import { UIEffects } from './store/ui/ui.effects';
 import { TasksEffects } from './store/tasks/tasks.effects';
+import { provideHttpClient } from '@angular/common/http';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -22,6 +23,7 @@ export const appConfig: ApplicationConfig = {
     provideEffects(QuizEffects),
     provideEffects(UIEffects),
     provideEffects(TasksEffects),
+    provideHttpClient(),
     provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() })
 ]
 };
